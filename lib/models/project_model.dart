@@ -1,16 +1,14 @@
 class ProjectModel {
-  final int projectId;
+  final String projectId;
   final String projectName;
   final String projectDescription;
   final DateTime createdAt;
-  final List<int> tasksIds;
 
   ProjectModel({
     required this.projectId,
     required this.projectName,
     required this.projectDescription,
     required this.createdAt,
-    this.tasksIds = const [],
   });
 
 
@@ -20,7 +18,6 @@ class ProjectModel {
       projectName: projectName,
       projectDescription: projectDescription,
       createdAt: createdAt,
-      tasksIds: [...tasksIds, taskId],
     );
   }
 }

@@ -33,12 +33,10 @@ class ProjectCubit extends Cubit<ProjectCubitState> {
 
 
   // ======================= Delete project
-  void deleteProject(int projectId) {
+  void deleteProject(String projectId) {
     try {
       emit(ProjectCubitLoading());
-
       _projectBox.delete(projectId);
-
       loadProjects();
     } catch (e) {
       emit(ProjectCubitFailure(errorMessage: e.toString()));

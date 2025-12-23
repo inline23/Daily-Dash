@@ -1,21 +1,18 @@
+import 'package:daily_dash/controllers/task%20cubit/cubit/task_cubit_state.dart';
 import 'package:daily_dash/hive_constants.dart';
 import 'package:daily_dash/models/task_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-
-import 'task_cubit_state.dart';
-
 class TaskCubit extends Cubit<TaskCubitState> {
   TaskCubit() : super(TaskCubitInitial());
 
-  Box<TaskModel> get _taskBox =>
-      Hive.box<TaskModel>(HiveConstants.tasksBox);
+  Box<TaskModel> get _taskBox => Hive.box<TaskModel>(HiveConstants.tasksBox);
 
   // =======================
   // Load tasks by projectId
   // =======================
-  void loadTasksByProject(int projectId) {
+  void loadTasksByProject(String projectId) {
     try {
       emit(TaskCubitLoading());
 
@@ -47,7 +44,7 @@ class TaskCubit extends Cubit<TaskCubitState> {
   // =======================
   // Toggle task done
   // =======================
-  void toggleTaskDone(int taskId) {
+  void toggleTaskDone(String taskId) {
     try {
       emit(TaskCubitLoading());
 
@@ -76,7 +73,7 @@ class TaskCubit extends Cubit<TaskCubitState> {
   // =======================
   // Delete task
   // =======================
-  void deleteTask(int taskId) {
+  void deleteTask(String taskId) {
     try {
       emit(TaskCubitLoading());
 

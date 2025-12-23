@@ -5,7 +5,7 @@ class TaskTypeAdapter extends TypeAdapter<TaskModel> {
   @override
   TaskModel read(BinaryReader reader) {
     return TaskModel(
-      projectId: reader.readInt(),
+      projectId: reader.readString(),
       taskId: reader.readInt(),
       taskTitle: reader.readString(),
       isDone: reader.readBool(),
@@ -17,7 +17,7 @@ class TaskTypeAdapter extends TypeAdapter<TaskModel> {
 
   @override
   void write(BinaryWriter writer, TaskModel obj) {
-    writer.writeInt(obj.projectId);
+    writer.writeString(obj.projectId);
     writer.writeInt(obj.taskId);
     writer.writeString(obj.taskTitle);
     writer.writeBool(obj.isDone); 
