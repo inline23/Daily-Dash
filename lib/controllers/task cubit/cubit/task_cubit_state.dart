@@ -8,9 +8,9 @@ class TaskCubitInitial extends TaskCubitState {}
 class TaskCubitLoading extends TaskCubitState {}
 
 class TaskCubitSuccess extends TaskCubitState {
-  final List<TaskModel> tasks;
+  final List<MapEntry<dynamic, TaskModel>> entries;
 
-  TaskCubitSuccess({required this.tasks});
+  TaskCubitSuccess({required this.entries});
 }
 
 class TaskCubitFailure extends TaskCubitState {

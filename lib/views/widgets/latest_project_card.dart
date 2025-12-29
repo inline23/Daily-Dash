@@ -39,7 +39,7 @@ class LatestProjectCard extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Text(
                 "Created At: ${project.createdAt.day}/${project.createdAt.month}/${project.createdAt.year}",
-                style: TextStyle(fontSize: 12, color: Colors.black),
+                style: TextStyle(fontSize: 12, color: Colors.grey[300]),
               ),
             ),
           ],

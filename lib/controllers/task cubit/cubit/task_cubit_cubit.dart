@@ -7,88 +7,37 @@ import 'package:hive_flutter/hive_flutter.dart';
 class TaskCubit extends Cubit<TaskCubitState> {
   TaskCubit() : super(TaskCubitInitial());
 
-  Box<TaskModel> get _taskBox => Hive.box<TaskModel>(HiveConstants.tasksBox);
+  Box<TaskModel> get _taskBox =>
+      Hive.box<TaskModel>(HiveConstants.tasksBox);
 
-  // =======================
   // Load tasks by projectId
-  // =======================
   void loadTasksByProject(String projectId) {
-    try {
-      emit(TaskCubitLoading());
+    emit(TaskCubitLoading());
 
-      final tasks = _taskBox.values
-          .where((task) => task.projectId == projectId)
-          .toList();
+    final tasks = _taskBox.toMap().entries
+        .where((e) => e.value.projectId == projectId)
+        .toList();
 
-      emit(TaskCubitSuccess(tasks: tasks));
-    } catch (e) {
-      emit(TaskCubitFailure(errorMessage: e.toString()));
-    }
+    emit(TaskCubitSuccess(entries: tasks));
   }
 
-  // =======================
-  // Add new task
-  // =======================
+  // Add task
   void addTask(TaskModel task) {
-    try {
-      emit(TaskCubitLoading());
-
-      _taskBox.put(task.taskId, task);
-
-      loadTasksByProject(task.projectId);
-    } catch (e) {
-      emit(TaskCubitFailure(errorMessage: e.toString()));
-    }
+    _taskBox.add(task);
+    loadTasksByProject(task.projectId);
   }
 
-  // =======================
-  // Toggle task done
-  // =======================
-  void toggleTaskDone(String taskId) {
-    try {
-      emit(TaskCubitLoading());
-
-      final task = _taskBox.get(taskId);
-
-      if (task == null) {
-        emit(TaskCubitFailure(errorMessage: 'Task not found'));
-        return;
-      }
-
-      final updatedTask = TaskModel(
-        projectId: task.projectId,
-        taskId: task.taskId,
-        taskTitle: task.taskTitle,
-        isDone: !task.isDone,
-      );
-
-      _taskBox.put(taskId, updatedTask);
-
-      loadTasksByProject(task.projectId);
-    } catch (e) {
-      emit(TaskCubitFailure(errorMessage: e.toString()));
-    }
+  // Toggle done
+  void toggleTaskDone(int key) {
+    final task = _taskBox.get(key)!;
+    final updated = task.copyWith(isDone: !task.isDone);
+    _taskBox.put(key, updated);
+    loadTasksByProject(updated.projectId);
   }
 
-  // =======================
   // Delete task
-  // =======================
-  void deleteTask(String taskId) {
-    try {
-      emit(TaskCubitLoading());
-
-      final task = _taskBox.get(taskId);
-
-      if (task == null) {
-        emit(TaskCubitFailure(errorMessage: 'Task not found'));
-        return;
-      }
-
-      _taskBox.delete(taskId);
-
-      loadTasksByProject(task.projectId);
-    } catch (e) {
-      emit(TaskCubitFailure(errorMessage: e.toString()));
-    }
+  void deleteTask(int key , String projectId) {
+    _taskBox.delete(key);
+    loadTasksByProject(projectId);
   }
 }

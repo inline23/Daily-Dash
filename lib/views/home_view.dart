@@ -49,7 +49,13 @@ class HomeView extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: LatestProjectCard(project: lastProject),
+            child: InkWell(onTap: () => Navigator.of( context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    ProjectDetailsScreen(project: lastProject),
+              ),
+            )
+            ,child: LatestProjectCard(project: lastProject)),
           ),
         ),
 

@@ -12,6 +12,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   await Hive.initFlutter();
+
   Hive.registerAdapter(ProjectTypeAdapter());
   Hive.registerAdapter(TaskTypeAdapter());
   await Hive.openBox<ProjectModel>(HiveConstants.projectsBox);
